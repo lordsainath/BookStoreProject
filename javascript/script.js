@@ -1,5 +1,5 @@
-import { defaultBooks } from './defaultBooks'
-import { defaultOrders } from './defaultOrders'
+import { defaultBooks } from './defaultBooks.js'
+import { defaultOrders } from './defaultOrders.js'
 
 const featuredContainer = document.getElementById("featuredBooks");
 const sliderImages = document.getElementById('sliderImages');
@@ -9,6 +9,8 @@ const sliderImage = document.getElementById('sliderImage');
 function initializeStorage() {
   const books = localStorage.getItem("books");
   const orders = localStorage.getItem('orders');
+  console.log(books)
+  console.log(orders)
 
   if (!books || !orders) {
     localStorage.setItem('books', JSON.stringify(defaultBooks))
