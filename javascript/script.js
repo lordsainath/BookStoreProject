@@ -1,8 +1,27 @@
+import { defaultBooks } from './defaultBooks'
+import { defaultOrders } from './defaultOrders'
+
 const featuredContainer = document.getElementById("featuredBooks");
 const sliderImages = document.getElementById('sliderImages');
 const sliderImage = document.getElementById('sliderImage');
 
+
+function initializeStorage() {
+  const books = localStorage.getItem("books");
+  const orders = localStorage.getItem('orders');
+
+  if (!books || !orders) {
+    localStorage.setItem('books', JSON.stringify(defaultBooks))
+    localStorage.setItem("orders", JSON.stringify(defaultOrders))
+  }
+}
+
+
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
+  initializeStorage()
   const books = JSON.parse(localStorage.getItem("books")) || [];
   sliderImages.src = books[0].image
 
