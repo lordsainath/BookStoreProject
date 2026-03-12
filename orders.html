@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders ! BookStore </title>
+    <link rel="stylesheet" href="./css/navbar.style.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./css/order.style.css">
+    <script src="https://kit.fontawesome.com/0fc002b433.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- Navbar Starts Here -->
+    <nav class="navbar">
+
+        <div class="navlogo">
+            <a href="index.html"><span class="logochar">B</span></a>
+            <span>Book</span>
+            <span class="store">Store</span>
+        </div>
+
+        <div class="navlinks">
+            <a href="index.html">Home</a>
+            <a href="books.html">Browse</a>
+            <a href="admin.html">Admin</a>
+            <a class="active" href="orders.html">Orders</a>
+        </div>
+
+        <div class="icons">
+            <a href="wishlist.html"><i class="fa-regular fa-heart"></i></a>
+            <!-- <i class="fa-regular fa-moon"></i> -->
+            <a href="Cart.html"><i class="fa-solid fa-bag-shopping"></i></a>
+        </div>
+
+    </nav>
+
+
+    <!-- Navbar Ends Here -->
+
+    <!-- BookCollection headers and filters starts here -->
+    <div class="order-collection">
+
+        <div class="order-header1">
+
+            <div class="headings">
+                <h1>My Orders</h1>
+                <p>Track your purchases and download invoices.</p>
+            </div>
+
+
+
+        </div>
+
+        <div id="orderContainer">
+
+
+
+
+
+
+
+        </div>
+
+    </div>
+
+
+
+
+    <script type="module">
+        import { renderOrderList } from './javascript/UiServices.js'
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            renderOrderList(orders)
+        })
+
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="./css/navbar.style.css">
+    <link rel="stylesheet" href="./css/admin.style.css">
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://kit.fontawesome.com/0fc002b433.js" crossorigin="anonymous"></script>
+    <title>AdminPage</title>
+</head>
+
+<body style="background-color: #f8fafc;">
+
+    <!-- Navbar Starts Here -->
+    <nav class="navbar">
+
+        <div class="navlogo">
+            <a href="index.html"><span class="logochar">B</span></a>
+            <span>Book</span>
+            <span class="store">Store</span>
+        </div>
+
+        <div class="navlinks">
+            <a href="index.html">Home</a>
+            <a href="books.html">Browse</a>
+            <a class="active" href="admin.html">Admin</a>
+            <a href="orders.html">Orders</a>
+        </div>
+
+        <div class="icons">
+            <a href="wishlist.html"><i class="fa-regular fa-heart"></i></a>
+            <!-- <i class="fa-regular fa-moon"></i> -->
+            <a href="Cart.html"><i class="fa-solid fa-bag-shopping"></i></a>
+        </div>
+
+    </nav>
+
+
+    <!-- Navbar Ends Here -->
+
+
+
+    <!-- Admin Dashboard -->
+
+    <div class="admin-dashboard">
+
+        <div class="admin-header">
+
+            <div class="admin-headings">
+                <h1>Admin Dashboard</h1>
+                <p>Manage your inventory, track orders, and view performance.</p>
+            </div>
+
+            <button id="addNewBook" class="add-book-btn">
+                <span>+</span>
+                <span>Add New Book</span>
+            </button>
+
+        </div>
+
+
+
+        <div style="display: flex;width: 100%;justify-content: space-around;gap: 10px;margin-top:20px;" class="">
+
+            <div class="statBox">
+                <div>
+                    <i class="fa-solid fa-book"></i>
+                </div>
+                <div>
+                    <p>Total Books</p>
+                    <p id="totalBooks">6</p>
+                </div>
+
+            </div>
+
+            <div class="statBox">
+                <div>
+                    <i class="fa-solid fa-book"></i>
+                </div>
+                <div>
+                    <p>Total Orders</p>
+                    <p id="totalOrders">6</p>
+                </div>
+
+            </div>
+
+            <div class="statBox">
+                <div>
+                    <i class="fa-solid fa-book"></i>
+                </div>
+                <div>
+                    <p>Total Revenue</p>
+                    <p>₹<span id="totalRevenue"></span></p>
+                </div>
+
+            </div>
+
+            <div class="statBox">
+                <div>
+                    <i class="fa-solid fa-book"></i>
+                </div>
+                <div>
+                    <p>Out of stock</p>
+                    <p id="outOfStock">6</p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div style="margin-top: 15px;">
+            <h1>Inventory</h1>
+
+            <div id="bookListContainer">
+
+
+
+
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- Add Book Modal -->
+
+    <form id="addBookForm" class="formModal">
+
+        <div class="formContainer">
+
+            <h2 class="formTitle">Add New Book</h2>
+
+            <div class="formBlock">
+
+                <div class="formBlockItem">
+                    <label>Book Title</label>
+                    <input required type="text" name="title" placeholder="Enter Book Title">
+                </div>
+
+                <div class="formBlockItem">
+                    <label>Author Name</label>
+                    <input required type="text" name="author" placeholder="Enter Author Name">
+                </div>
+
+            </div>
+
+
+            <div class="formBlock">
+
+                <div class="formBlockItem">
+                    <label>Price</label>
+                    <input required type="number" name="price" placeholder="Enter Price">
+                </div>
+
+                <div class="formBlockItem">
+                    <label>Category</label>
+                    <select required name="category">
+                        <option value="" disabled selected>Select Category</option>
+                        <option value="Fiction">Fiction</option>
+                        <option value="Non-Fiction">Non-Fiction</option>
+                        <option value="Science &amp; Technology">Science &amp; Technology</option>
+                        <option value="Self-Help">Self-Help</option>
+                        <option value="Business &amp; Finance">Business &amp; Finance</option>
+                        <option value="Children">Children</option>
+                        <option value="Comics &amp; Graphic Novels">Comics &amp; Graphic Novels</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+            </div>
+
+
+            <div class="formBlock">
+
+                <div class="formBlockItem">
+                    <label>Stock Quantity</label>
+                    <input required type="number" name="stock" placeholder="Enter Stock Quantity">
+                </div>
+
+                <div class="formBlockItem">
+                    <label>Cover Image URL</label>
+                    <input required type="text" name="image" placeholder="Enter Image URL">
+                </div>
+
+            </div>
+
+
+            <div class="formBlock">
+
+                <div class="formBlockItem">
+                    <label>Description</label>
+                    <textarea required name="description" rows="3" placeholder="Enter short description"></textarea>
+                </div>
+
+            </div>
+
+
+            <div class="formBlock">
+
+                <div class="formBlockItem">
+                    <label>Pages</label>
+                    <input required type="number" name="pages" placeholder="Total number of pages">
+                </div>
+
+                <div class="formBlockItem">
+                    <label>Language</label>
+                    <input required type="text" name="language" placeholder="e.g. English">
+                </div>
+
+            </div>
+
+
+            <div class="formBlock">
+
+                <div class="formBlockItem">
+                    <label>Publication Date</label>
+                    <input required type="date" name="publicationDate">
+                </div>
+
+            </div>
+
+
+            <div class="formButtonContainer">
+
+                <button id="formSubmitBtn" type="submit">
+                    Save Book
+                </button>
+
+                <button id="cancelBtn" type="button">
+                    Cancel
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+
+
+    <script type="module">
+
+        import { giveNotification } from "./javascript/Notification.js";
+
+        const form = document.getElementById('addBookForm');
+        const addNewBook = document.getElementById('addNewBook');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const totalBooks = document.getElementById('totalBooks');
+        const totalRevenue = document.getElementById('totalRevenue')
+        const bookListContainer = document.getElementById('bookListContainer');
+        const outOfStock = document.getElementById('outOfStock');
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const books = JSON.parse(localStorage.getItem("books"));
+            const orders = JSON.parse(localStorage.getItem('orders'));
+            totalBooks.innerText = books.length;
+            totalOrders.innerText = orders.length;
+            outOfStock.innerText = books.reduce((acc, cv) => {
+                return cv.stock === 0 ? acc + 1 : acc;
+            }, 0);
+
+            totalRevenue.innerText = orders.reduce((acc, cv) => {
+
+                return cv.total + acc
+            }, 0)
+
+            bookListContainer.innerHTML = `
+<table class="bookTable">
+    <tr>
+        <th>Books</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Stock</th>
+    </tr>
+
+    ${books.map((item) => {
+                return `
+        <tr>
+            <td>${item.title}</td>
+            <td>${item.category}</td>
+            <td>₹${item.price}</td>
+            <td>${item.stock}</td>
+        </tr>
+        `
+            }).join('')}
+</table>
+`;
+
+
+        })
+
+
+        addNewBook.addEventListener('click', () => {
+            form.style.display = "flex";
+        });
+
+
+        cancelBtn.addEventListener('click', () => {
+            form.style.display = "none";
+        });
+
+
+        form.addEventListener('submit', (e) => {
+
+            e.preventDefault();
+
+            const formEntries = new FormData(form);
+            const formData = Object.fromEntries(formEntries);
+
+
+            formData.price = Number(formData.price);
+            formData.stock = Number(formData.stock);
+            formData.pages = Number(formData.pages);
+
+
+            formData.title = formData.title.trim();
+            formData.author = formData.author.trim();
+            formData.category = formData.category.trim();
+            formData.language = formData.language.trim();
+            formData.description = formData.description.trim();
+
+            formData.id =
+                formData.category.toUpperCase().slice(0, 3) +
+                formData.title.toUpperCase().slice(0, 3) +
+                Date.now();
+
+            const books = JSON.parse(localStorage.getItem('books')) || [];
+
+            books.push(formData);
+
+            localStorage.setItem('books', JSON.stringify(books));
+
+            form.reset();
+            form.style.display = "none";
+
+            giveNotification('Book Added Successfully', 'success');
+
+        });
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
+
+
+<!-- 
+ <table
+                    style="border: 1px solid #e2e8f0;border-radius: 10px;padding: 10px;width: 100%;margin-top: 15px;">
+                    <tr style="border-bottom: #e2e8f0;">
+                        <th>Books</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                    </tr>
+
+
+
+
+                </table> -->

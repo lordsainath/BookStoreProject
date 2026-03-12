@@ -1,0 +1,281 @@
+/* Cart Layout */
+
+.cart-layout {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+
+/* Cart Items Container */
+
+.cart-items-container {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+/* Cart Summary */
+
+.cart-summary {
+    width: 25%;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    padding: 20px 40px;
+    height: fit-content;
+}
+
+
+/* Summary Title */
+
+.summary-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+
+/* Rows */
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0;
+}
+
+
+/* Coupon Section */
+.coupon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* Coupon Input */
+.coupon-input {
+    flex: 1;
+    /* makes input take full remaining space */
+}
+
+.coupon-input input {
+    width: 100%;
+    /* full width inside container */
+    padding: 10px 15px;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    background: #f8fafc;
+}
+
+/* Apply Button */
+.coupon-box button {
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+
+/* Apply Button */
+
+.apply-btn {
+    background: black;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+}
+
+
+/* Shipping Inputs */
+
+.cart-summary input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    outline: none;
+}
+
+.cart-summary textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    outline: none;
+}
+
+
+/* Place Order Button */
+
+.place-order-btn {
+    width: 100%;
+    background: #4338ca;
+    color: white;
+    padding: 10px;
+    margin-top: 15px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.place-order-btn:hover {
+    background: #3730a3;
+}
+
+
+/* ========================= */
+/* Cart Item Card */
+/* ========================= */
+
+.cart-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+    padding: 10px 20px;
+
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    transition: all .2s ease;
+    gap: 20px;
+}
+
+.cart-card:hover {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+/* ========================= */
+/* Product Section */
+/* ========================= */
+
+.cart-product {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 70%;
+}
+
+
+/* Product Image */
+
+.cart-image {
+    overflow: hidden;
+    
+}
+
+.cart-image img {
+    width: 100px;
+    height: 120px;
+    object-fit: cover;
+
+    border-radius: 10px;
+}
+
+
+/* Product Info */
+
+.cart-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.cart-author {
+    color: #52525b;
+    margin-top: 3px;
+}
+
+.cart-price {
+    font-size: 20px;
+    margin-top: 4px;
+}
+
+
+/* ========================= */
+/* Actions Section */
+/* ========================= */
+
+.cart-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+
+/* Quantity Box */
+
+.quantity-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    background: #f4f4f5;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 6px 10px;
+}
+
+
+/* Quantity Buttons */
+
+.quantity-btn {
+    font-size: 22px;
+    padding: 6px 15px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.quantity-btn:hover {
+    background: white;
+}
+
+
+/* Quantity Value */
+
+.quantity-value {
+    font-size: 16px;
+}
+
+
+/* Remove Button */
+
+.remove-btn {
+    padding: 6px 15px;
+    border: none;
+    border-radius: 6px;
+    color: #ef4444;
+    background: transparent;
+    cursor: pointer;
+}
+
+.remove-btn:hover {
+    background: #fee2e2;
+}
+
+.inputBox {
+    background-color: #f8fafc;
+}
+
+textarea {
+    resize: vertical;
+    overflow: auto;
+}

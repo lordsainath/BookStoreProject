@@ -1,0 +1,88 @@
+.order-collection {
+    padding: 40px 60px;
+    background: #f8fafc;
+}
+
+.order-header1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+#orderContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+
+.order-card {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 15px;
+    border: 1px solid #d7e1ef;
+    overflow: hidden;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f1f5f9;
+    padding: 20px 30px;
+}
+
+.order-header-left {
+    display: flex;
+    gap: 40px;
+}
+
+.order-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.order-id {
+    color: #4f46e5;
+}
+
+.invoice-btn {
+    cursor: not-allowed;
+}
+
+.order-items {
+    width: 100%;
+}
+
+.orderItemInfo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.order-item {
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    border: 1px solid #e2e8f0;
+    padding: 20px 30px;
+    align-items: center;
+}
+
+.item-image {
+    height: 90px;
+}
+
+.item-image img {
+    width: 70px;
+}
+
+.item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}

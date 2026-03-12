@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/0fc002b433.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./css/book-detail.style.css">
+    <title>Book Details | BookStore</title>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navlogo">
+            <a href="index.html"><span class="logochar">B</span></a>
+            <span>Book</span>
+            <span class="store">Store</span>
+        </div>
+        <div class="navlinks">
+            <a href="index.html">Home</a>
+            <a href="books.html">Browse</a>
+            <a href="admin.html">Admin</a>
+            <a href="orders.html">Orders</a>
+        </div>
+        <div class="icons">
+            <a href="wishlist.html"><i class="fa-regular fa-heart"></i></a>
+            <!-- <i class="fa-regular fa-moon"></i> -->
+            <a href="Cart.html"><i class="fa-solid fa-bag-shopping"></i></a>
+        </div>
+    </nav>
+
+    <main class="book-detail-main">
+        <div id="bookDetailRoot" class="book-detail-root">
+
+        </div>
+    </main>
+
+    <script type="module">
+        import { giveNotification } from './javascript/Notification.js';
+        import { addToCart } from './javascript/Cart.js';
+
+        const root = document.getElementById('bookDetailRoot');
+
+        function getBookIdFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id') || '';
+        }
+
+        function getBookById(id) {
+            const books = JSON.parse(localStorage.getItem('books')) || [];
+            return books.find(b => b.id === id) || null;
+        }
+
+        function formatPublicationDate(value) {
+            if (!value) return '—';
+            const d = new Date(value);
+            return isNaN(d.getTime()) ? value : d.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        function renderNotFound() {
+            root.innerHTML = `
+                <div class="book-detail-not-found">
+                    <i class="fa-solid fa-book-open"></i>
+                    <h1>Book not found</h1>
+                    <p>This book may have been removed or the link is invalid.</p>
+                    <a href="books.html" class="book-detail-back-btn">Back to Browse</a>
+                </div>
+            `;
+        }
+
+        function renderBook(book) {
+            const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            const wishlistItems = JSON.parse(localStorage.getItem('wishlist')) || [];
+            const inCart = cartItems.some(item => item.id === book.id);
+            const inWishlist = wishlistItems.some(item => item.id === book.id);
+
+            root.innerHTML = `
+                <a href="books.html" class="book-detail-breadcrumb"><i class="fa-solid fa-arrow-left"></i> Browse</a>
+
+                <div class="book-detail-layout">
+                    <div class="book-detail-cover-wrap">
+                        <img class="book-detail-cover" src="${book.image || ''}" alt="${(book.title || 'Book').replace(/"/g, '&quot;')}">
+                    </div>
+                    <div class="book-detail-info">
+                        <span class="book-detail-category">${book.category || 'Uncategorized'}</span>
+                        <h1 class="book-detail-title">${book.title || 'Untitled'}</h1>
+                        <p class="book-detail-author">${book.author || '—'}</p>
+
+                        <dl class="book-detail-meta">
+                            ${book.pages != null && book.pages !== '' ? `<div class="book-detail-meta-row"><dt>Pages</dt><dd>${book.pages}</dd></div>` : ''}
+                            ${book.language ? `<div class="book-detail-meta-row"><dt>Language</dt><dd>${book.language}</dd></div>` : ''}
+                            ${book.publicationDate ? `<div class="book-detail-meta-row"><dt>Publication date</dt><dd>${formatPublicationDate(book.publicationDate)}</dd></div>` : ''}
+                        </dl>
+
+                        ${book.description ? `<div class="book-detail-description"><h2>Description</h2><p>${String(book.description).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')}</p></div>` : ''}
+
+                        <div class="book-detail-price">₹${book.price != null ? book.price : '—'}</div>
+
+                        <div class="book-detail-actions">
+                            <button type="button" class="book-detail-btn book-detail-btn-cart add-cart" ${inCart ? 'disabled' : ''} data-book-id="${book.id}">
+                                ${inCart ? 'Added to Cart' : 'Add to Cart'}
+                            </button>
+                             
+                            <button type="button"
+class="book-detail-btn book-detail-btn-wishlist wishlist-toggle ${inWishlist ? 'wishlist-toggle--active' : ''}"
+data-book-id="${book.id}"
+aria-label="Toggle wishlist">
+
+<i class="fa-${inWishlist ? 'solid' : 'regular'} fa-heart"></i>
+
+
+</button>
+                           
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const books = JSON.parse(localStorage.getItem('books')) || [];
+
+            root.addEventListener('click', (e) => {
+                const cartBtn = e.target.closest('.book-detail-btn-cart');
+                const wishlistBtn = e.target.closest('.wishlist-toggle');
+                if (cartBtn && !cartBtn.disabled) {
+                    e.preventDefault();
+                    addToCart(book.id, books);
+                    giveNotification('Book added to cart', 'success');
+                    cartBtn.disabled = true;
+                    cartBtn.textContent = 'Added to Cart';
+                }
+                if (wishlistBtn) {
+                    e.preventDefault();
+                    let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+                    const exists = wishlist.find(item => item.id === book.id);
+                    if (exists) {
+                        wishlist = wishlist.filter(item => item.id !== book.id);
+                        giveNotification('Removed from wishlist', 'error');
+                    } else {
+                        wishlist.push(book);
+                        giveNotification('Added to wishlist', 'success');
+                    }
+                    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                    renderBook(book);
+                }
+            });
+        }
+
+        (function init() {
+            const id = getBookIdFromUrl();
+            if (!id) {
+                renderNotFound();
+                return;
+            }
+            const book = getBookById(id);
+            if (!book) {
+                renderNotFound();
+                return;
+            }
+            document.title = `${book.title || 'Book'} | BookStore`;
+            renderBook(book);
+        })();
+    </script>
+</body>
+
+</html>

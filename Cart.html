@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon">
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
+    <script src="https://kit.fontawesome.com/0fc002b433.js" crossorigin="anonymous"></script>
+    <title>Cart</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./css/cart.style.css">
+</head>
+
+<body class="bg-zinc-100">
+    <!-- Navbar Starts Here -->
+    <nav class="navbar">
+
+        <div class="navlogo">
+           <a href="index.html"><span class="logochar">B</span></a>
+            <span>Book</span>
+            <span class="store">Store</span>
+        </div>
+
+        <div class="navlinks">
+            <a href="index.html">Home</a>
+            <a href="books.html">Browse</a>
+            <a href="admin.html">Admin</a>
+           <a href="orders.html">Orders</a>
+        </div>
+
+        <div class="icons">
+            <a href="wishlist.html"><i class="fa-regular fa-heart"></i></a>
+            <!-- <i class="fa-regular fa-moon"></i> -->
+            <a href="Cart.html"><i class="fa-solid fa-bag-shopping"></i></a>
+        </div>
+
+    </nav>
+
+
+    <!-- Navbar Ends Here -->
+
+    <div class="cart-collection ">
+        <div class="cart-header">
+
+            <div class="headings">
+                <h1>Shopping Cart</h1>
+                <!-- <p>Find your next favorite read from our extensive library</p> -->
+            </div>
+
+            <div class="searchInput">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search Title or author..." id="booksFilter">
+            </div>
+
+        </div>
+
+
+        <!-- Cart Items -->
+        <div class="cart-layout">
+            <div id="cart-items-container" class="cart-items-container">
+
+                <div
+                    style="background-color: white; border: 2px solid #e2e8f0; border-radius: 25px;padding: 25px;display: flex;flex-direction: column; align-items: center; justify-content: center;height: 100%;gap: 10px;">
+                    <h1>Your Cart is empty</h1>
+                    <p>Looks like you haven't added any books yet!</p>
+                    <a style="background-color: #4338ca;color: white;padding: 10px 20px;border-radius: 15px;text-decoration: none;"
+                        href="books.html">Start Shopping</a>
+                </div>
+
+
+
+
+
+
+
+            </div>
+            <div id="cart-summary" class="cart-summary">
+                <h1 class="summary-title">Order summary</h1>
+
+                <div>
+
+
+
+                    <div class="summary-row">
+                        <p>Subtotal </p>
+                        <span id="totalPrice"></span>
+                    </div>
+
+                    <div style="display: none;" class="summary-row" id="applyDiscount">
+                        <p>Discount (<span id="discountCouponName"></span>) </p>
+                        <span style="color: red;">-<span id="discountedPrice"></span></span>
+                    </div>
+
+                    <div class="summary-row" style="justify-content: space-between;">
+                        <p>Shipping </p>
+                        <div style="display: flex;flex-direction: column;">
+                            <span id="shippingPrice"></span>
+                        </div>
+                    </div>
+                    <p id="shippingInfo" style="color: green;font-size: 12px;"></p>
+
+                    <hr>
+                    <div class="summary-row">
+                        <p>Total </p>
+                        <span>₹ <span id="finalPrice"></span></span>
+                    </div>
+
+                    <div class="coupon-box">
+                        <div class="coupon-input">
+                            <input class="inputBox" type="text" placeholder="Coupon Code" id="couponInput">
+                        </div>
+                        <button id="apply-btn" type="button" class="apply-btn">Apply</button>
+
+                    </div>
+                    <p id="couponStatus" style="color: red;font-size: 13px; margin: 5px;"></p>
+
+                </div>
+
+
+                <!-- Shipping Details Starts Here -->
+
+                <form id="placeOrderForm">
+                    <div class="">
+                        <input required class="inputBox" type="text" name="FullName" placeholder="Full Name" id="">
+                    </div>
+                    <div>
+                        <input required class="inputBox" type="text" name="email" placeholder="Email Address" id="">
+                    </div>
+                    <div>
+                        <textarea required class="w-full inputBox" name="address" type="text"
+                            placeholder="Shipping Address" id=""> </textarea>
+                    </div>
+                    <button class="place-order-btn">Place Order</button>
+                </form>
+
+
+                <!-- Shipping Details Ends Here -->
+
+                <!--  -->
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+    <!-- <div style="width: 100%;position: fixed;top: 0;display: flex;justify-content: center;align-items: center;height: 100%;"
+        class="bg-black/50">
+        <div class=""
+            style="padding: 25px;display: flex;flex-direction: column;align-items: center;gap: 20px;background-color: white;border-radius: 20px;width: 25%;">
+            <p
+                style="text-align: center;background-color: yellowgreen; width: fit-content; padding: 20px;border-radius: 50%;">
+                <i style="color: green;" class="fa-solid fa-check"></i></p>
+            <h1 style="font-size: 25px; font-weight: 500; text-align: center;">Order Placed!</h1>
+            <p>Thank you for your purchase. Your order <span id="orderId" style="color: #4f46e5;">ORD-7896541230</span>
+                has been confirmed</p>
+            <button style="padding: 5px 10px;border-radius: 10px;width: 100%;" class="bg-[#272e3f] text-white">Back to
+                Home</button>
+        </div>
+
+
+    </div> -->
+    <script type="module">
+        // Import Statements
+        import { renderCartItems, renderOrderSummary } from './javascript/UiServices.js'
+        import { giveNotification } from './javascript/Notification.js'
+        import { createModal } from './javascript/Modal.js'
+
+
+        // Selections
+        const cartSummary = document.getElementById('cart-summary');
+        const couponStatus = document.getElementById('couponStatus');
+        const placeOrderForm = document.getElementById('placeOrderForm')
+        const cartitemscontainer = document.getElementById('cart-items-container');
+        let appliedCoupon = null;
+
+
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const cartItems = JSON.parse(localStorage.getItem('cart')) || []
+
+            renderCartItems(cartItems)
+            renderOrderSummary(cartItems, appliedCoupon)
+        })
+
+
+
+        cartitemscontainer.addEventListener('click', (e) => {
+            const cartItemCard = e.target.closest('.cart-card');
+            if (!cartItemCard) return;
+            const id = cartItemCard.dataset.cartItemId;
+            if (e.target.closest('.remove-item')) {
+
+                const filterData = (JSON.parse(localStorage.getItem('cart')) || [])
+                    .filter(item => item.id != id)
+
+                localStorage.setItem('cart', JSON.stringify(filterData))
+                renderCartItems(filterData)
+                giveNotification('Removed From Cart', 'error')
+                renderOrderSummary(filterData, appliedCoupon)
+
+            } else if (e.target.classList.contains('decrease')) {
+                const filterData = (JSON.parse(localStorage.getItem("cart")) || [])
+                    .map(item =>
+                        item.id === id
+                            ? item.quantity === 1
+                                ? item
+                                : { ...item, quantity: item.quantity - 1 }
+                            : item
+                    );
+                localStorage.setItem('cart', JSON.stringify(filterData));
+                renderCartItems(filterData)
+                renderOrderSummary(filterData, appliedCoupon)
+            }
+            else if (e.target.classList.contains('increase')) {
+                const filterData = (JSON.parse(localStorage.getItem("cart")) || [])
+                    .map(item =>
+                        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+                    );
+
+                localStorage.setItem('cart', JSON.stringify(filterData));
+                renderCartItems(filterData)
+                renderOrderSummary(filterData, appliedCoupon)
+
+
+            }
+
+        })
+
+        const couponInput = document.getElementById('couponInput')
+
+        couponInput.addEventListener('input', (e) => {
+            couponInput.value = e.target.value.toUpperCase()
+            couponStatus.textContent = ""
+        })
+
+        cartSummary.addEventListener('click', (e) => {
+            const cartItems = JSON.parse(localStorage.getItem('cart')) || []
+            const applyBtn = document.getElementById('apply-btn');
+
+            if (e.target.classList.contains('apply-btn')) {
+                if (cartItems.length === 0) {
+                    giveNotification('Add items to cart before applying a coupon', 'error');
+                    return;
+                }
+
+       
+                if (appliedCoupon) {
+                    appliedCoupon = null;
+                    couponInput.readOnly = false;
+                    couponInput.value = '';
+                    applyBtn.textContent = 'Apply';
+                    applyBtn.disabled = false;
+                    applyBtn.style.cursor = 'pointer';
+                    couponStatus.textContent = '';
+                    renderOrderSummary(cartItems);
+                    giveNotification('Coupon removed', 'success');
+                    return;
+                }
+
+                if (couponInput.value === 'WELCOME' || couponInput.value === 'FIRST50' || couponInput.value === 'NEWBIE') {
+                    appliedCoupon = couponInput.value;
+                    renderOrderSummary(cartItems, appliedCoupon)
+                    giveNotification(`Coupon (${couponInput.value}) Applied!`, 'success')
+                    couponInput.readOnly = true;
+                    applyBtn.textContent = 'Remove'
+                    applyBtn.disabled = false;
+                    applyBtn.style.cursor = "pointer"
+                    couponStatus.textContent = ""
+
+                } else {
+                    appliedCoupon = null;
+                    renderOrderSummary(cartItems)
+                    couponStatus.textContent = "Invalid Coupon"
+                }
+
+            }
+
+        })
+
+
+        const inputValue = document.getElementById("booksFilter");
+        inputValue.addEventListener("input", (e) => {
+            const searchValue = e.target.value.toLowerCase();
+
+            const cartItems = JSON.parse(localStorage.getItem('cart')) || []
+            const filterBooks = cartItems.filter(book => book.title.toLowerCase().includes(searchValue) ||
+                book.author.toLowerCase().includes(searchValue))
+
+            renderCartItems(filterBooks)
+        })
+
+
+        placeOrderForm.addEventListener('submit', (e) => {
+            e.preventDefault()
+
+            const cartItems = JSON.parse(localStorage.getItem('cart')) || []
+
+            if (cartItems.length > 0) {
+                const totalPrice = document.getElementById('totalPrice');
+                const shippingPrice = document.getElementById('shippingPrice');
+                const applyDiscount = document.getElementById('applyDiscount')
+                const discountedPrice = document.getElementById('discountedPrice')
+                const discountCouponName = document.getElementById('discountCouponName')
+
+                const finalPrice = document.getElementById('finalPrice');
+
+                const formData = Object.fromEntries(new FormData(placeOrderForm));
+
+
+
+
+                if (cartItems.length > 0) {
+                    const order = {
+                        couponCode: couponInput.value,
+                        customerInfo: formData,
+                        date: Date.now(),
+                        discount: Number(discountedPrice.textContent),
+                        shipping: Number(shippingPrice.textContent),
+                        subtotal: Number(totalPrice.textContent),
+                        total: Number(finalPrice.textContent),
+                        status: "completed",
+                        items: [...cartItems],
+                        id: `ORD-${Date.now()}`
+                    }
+                    const orders = JSON.parse(localStorage.getItem('orders')) || [];
+                    orders.push(order);
+                    localStorage.setItem('orders', JSON.stringify(orders))
+                    giveNotification('Your Order Placed', 'success')
+                    placeOrderForm.reset()
+                    localStorage.removeItem('cart');
+
+
+                    renderCartItems([])
+                    renderOrderSummary([])
+                    createModal(order.id)
+                }
+
+
+
+
+            } else {
+                giveNotification('Please Add items to the cart', 'error')
+            }
+
+
+
+        })
+
+
+
+    </script>
+
+</body>
+
+</html>

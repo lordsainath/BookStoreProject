@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon">
+
+    <script src="https://kit.fontawesome.com/0fc002b433.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Browse| Bookstore</title>
+</head>
+
+<body>
+    <!-- Navbar Starts Here -->
+    <nav class="navbar">
+
+        <div class="navlogo">
+            <a href="index.html"><span class="logochar">B</span></a>
+            <span>Book</span>
+            <span class="store">Store</span>
+        </div>
+
+        <div class="navlinks">
+            <a href="index.html">Home</a>
+            <a class="active" href="books.html">Browse</a>
+            <a href="admin.html">Admin</a>
+             <a href="orders.html">Orders</a>
+        </div>
+
+        <div class="icons">
+            <a href="wishlist.html"><i class="fa-regular fa-heart"></i></a>
+            <!-- <i class="fa-regular fa-moon"></i> -->
+            <a href="Cart.html"><i class="fa-solid fa-bag-shopping"></i></a>
+        </div>
+
+    </nav>
+
+
+    <!-- Navbar Ends Here -->
+
+    <!-- BookCollection headers and filters starts here -->
+    <div class="book-collection">
+
+        <div class="book-header">
+
+            <div class="headings">
+                <h1>Browse Collection</h1>
+                <p>Find your next favorite read from our extensive library</p>
+            </div>
+
+            <div style="display: flex; gap: 12px; align-items: center;">
+                <div class="searchInput">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search Title or author..." id="booksFilter">
+                </div>
+                <select id="categoryFilter" class="category-filter-select">
+                    <option value="ALL">All categories</option>
+                    <option value="Fiction">Fiction</option>
+                    <option value="Non-Fiction">Non-Fiction</option>
+                    <option value="Science &amp; Technology">Science &amp; Technology</option>
+                    <option value="Self-Help">Self-Help</option>
+                    <option value="Business &amp; Finance">Business &amp; Finance</option>
+                    <option value="Children">Children</option>
+                    <option value="Comics &amp; Graphic Novels">Comics &amp; Graphic Novels</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div id="bookContainer">
+            
+        </div>
+
+    </div>
+
+
+
+
+    <!-- BookCollection headers and filters ends here -->
+
+
+    <!-- <h1>This is book collection page</h1>
+
+
+
+    <div id="bookContainer"></div> -->
+
+
+    <script type="module">
+
+        import { giveNotification } from "./javascript/Notification.js";
+        import { addToCart } from './javascript/Cart.js'
+        import { renderBooksByCategory } from './javascript/UiServices.js'
+
+        const books = JSON.parse(localStorage.getItem('books')) || [];
+
+        function applyFilters() {
+            const searchInput = document.getElementById("booksFilter");
+            const categorySelect = document.getElementById("categoryFilter");
+
+            const searchValue = (searchInput.value || '').toLowerCase();
+            const selectedCategory = categorySelect.value;
+
+            let filtered = books;
+
+            if (searchValue) {
+                filtered = filtered.filter(book =>
+                    (book.title || '').toLowerCase().includes(searchValue) ||
+                    (book.author || '').toLowerCase().includes(searchValue)
+                );
+            }
+
+            if (selectedCategory !== 'ALL') {
+                filtered = filtered.filter(book => (book.category || '').toLowerCase() === selectedCategory.toLowerCase());
+            }
+
+            renderBooksByCategory(filtered);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            applyFilters();
+
+            const inputValue = document.getElementById("booksFilter");
+            const categoryFilter = document.getElementById("categoryFilter");
+
+            inputValue.addEventListener("input", applyFilters);
+            categoryFilter.addEventListener("change", applyFilters);
+        })
+
+        const bookContainer = document.getElementById('bookContainer');
+
+        bookContainer.addEventListener('click', (e) => {
+            const bookcard = e.target.closest('.book-card');
+            if (!bookcard) return;
+            const bookid = bookcard.dataset.bookid;
+
+            if (e.target.classList.contains('add-cart')) {
+                giveNotification('Book Added To Cart', 'success')
+                addToCart(bookid, books)
+
+                applyFilters();
+            } else if (
+                e.target.classList.contains('wishlist-toggle') ||
+                e.target.closest('.wishlist-toggle')
+            ) {
+                const wishlistToggle = e.target.closest('.wishlist-toggle');
+                let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+                const exists = wishlist.find(item => item.id === bookid);
+
+                if (exists) {
+                    wishlist = wishlist.filter(item => item.id !== bookid);
+                    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                    giveNotification('Removed from Wishlist', 'error');
+                } else {
+                    const book = books.find(book => book.id === bookid);
+                    if (book) {
+                        wishlist.push(book);
+                        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                        giveNotification('Added to Wishlist', 'success');
+                    }
+                }
+
+                applyFilters();
+            }
+
+        })
+
+    </script>
+
+
+</body>
+
+</html>

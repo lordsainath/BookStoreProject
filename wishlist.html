@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon">
+
+    <script src="https://kit.fontawesome.com/0fc002b433.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>My Wishlist</title>
+</head>
+
+<body>
+    <!-- Navbar Starts Here -->
+    <nav class="navbar">
+
+        <div class="navlogo">
+            <a href="index.html"><span class="logochar">B</span></a>
+            <span>Book</span>
+            <span class="store">Store</span>
+        </div>
+
+        <div class="navlinks">
+            <a href="index.html">Home</a>
+            <a href="books.html">Browse</a>
+            <a href="admin.html">Admin</a>
+            <a href="orders.html">Orders</a>
+        </div>
+
+        <div class="icons">
+            <a href="wishlist.html"><i class="fa-solid fa-heart"></i></a>
+            <!-- <i class="fa-regular fa-moon"></i> -->
+            <a href="Cart.html"><i class="fa-solid fa-bag-shopping"></i></a>
+        </div>
+
+    </nav>
+
+
+    <!-- Wishlist headers and filters -->
+    <div class="book-collection">
+
+        <div class="book-header">
+
+            <div class="headings">
+                <h1>My Wishlist</h1>
+                <p>Books you have saved to read later</p>
+            </div>
+
+            <div class="searchInput">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search Title or author..." id="wishlistFilter">
+            </div>
+
+        </div>
+
+        <div id="bookContainer">
+
+
+        </div>
+
+    </div>
+
+
+    <script type="module">
+        import { giveNotification } from "./javascript/Notification.js";
+        import { addToCart } from './javascript/Cart.js'
+        import { renderBooks } from './javascript/UiServices.js'
+
+        let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+        const bookContainer = document.getElementById('bookContainer');
+
+
+
+        function refreshWishlist() {
+            wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            if (wishlist.length === 0) {
+                bookContainer.innerHTML = ` <div
+                style="background-color: white; border: 2px solid #e2e8f0; border-radius: 25px;padding: 25px;display: flex;flex-direction: column; align-items: center; justify-content: center;height: 500px;gap: 20px;width : 100% ">
+                <h1>Your wishlist is empty</h1>
+                <p>Looks like you haven't added any books yet!</p>
+                <a style="background-color: #4338ca;color: white;padding: 10px 20px;border-radius: 15px;text-decoration: none;"
+                    href="books.html">Start Shopping</a>
+            </div>  `
+                return;
+            }
+            renderBooks(wishlist);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            refreshWishlist();
+        })
+
+        const inputValue = document.getElementById("wishlistFilter");
+        inputValue.addEventListener("input", (e) => {
+            const searchValue = e.target.value.toLowerCase();
+            const filterBooks = wishlist.filter(book => book.title.toLowerCase().includes(searchValue) ||
+                book.author.toLowerCase().includes(searchValue))
+
+            renderBooks(filterBooks)
+        })
+
+
+
+        bookContainer.addEventListener('click', (e) => {
+            const bookcard = e.target.closest('.book-card');
+            if (!bookcard) return;
+            const bookid = bookcard.dataset.bookid;
+
+            if (e.target.classList.contains('add-cart')) {
+                giveNotification('Book Added To Cart', 'success')
+                addToCart(bookid, wishlist)
+                refreshWishlist();
+            } else if (
+                e.target.classList.contains('wishlist-toggle') ||
+                e.target.closest('.wishlist-toggle')
+            ) {
+                let wishlistData = JSON.parse(localStorage.getItem('wishlist')) || [];
+                const exists = wishlistData.find(item => item.id === bookid);
+
+                if (exists) {
+                    wishlistData = wishlistData.filter(item => item.id !== bookid);
+                    localStorage.setItem('wishlist', JSON.stringify(wishlistData));
+                    giveNotification('Removed from Wishlist', 'error');
+                } else {
+                    const book = wishlist.find(book => book.id === bookid);
+                    if (book) {
+                        wishlistData.push(book);
+                        localStorage.setItem('wishlist', JSON.stringify(wishlistData));
+                        giveNotification('Added to Wishlist', 'success');
+                    }
+                }
+
+                refreshWishlist();
+            }
+
+        })
+    </script>
+
+</body>
+
+</html>
